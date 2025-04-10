@@ -8,36 +8,6 @@ load_dotenv()
 print("Loaded MONGO_URI:", os.getenv("MONGO_URI"))
 
 
-# def get_profiles_context():
-#     try:
-#         client = MongoClient(os.getenv("MONGO_URI"))
-#         db = client["app-dev"]
-#         collection = db["profiles"]
-#         profiles = list(collection.find())
-#
-#         if not profiles:
-#             return "No profiles found."
-#
-#         context_parts = []
-#         for profile in profiles:
-#             skills = profile.get("highlightedSkills", [])
-#             experience_list = profile.get("experience", [])
-#             experience_text = "\n".join(
-#                 [f"- {exp.get('company', 'Unknown')} ({exp.get('years', 0)} years)" for exp in experience_list])
-#
-#             context_parts.append(f"""Name: {profile.get('firstName', '')} {profile.get('lastName', '')}
-#                     Expertise: {profile.get('areaOfExpertise', '')}
-#                     Summary: {profile.get('carrierSummary', '')}
-#                     Skills: {', '.join(skills)}
-#                     Experience:{experience_text}""")
-#             context_parts.append("===")
-#
-#         return "\n".join(context_parts)
-#
-#     except Exception as e:
-#         return f"Error retrieving profiles: {e}"
-
-
 class ChatBot:
     def __init__(self, api_key, model, profile_slug="slug"):
         self.api_key = api_key
@@ -45,14 +15,6 @@ class ChatBot:
         self.conversation_history = []
         self.mistral_client = Mistral(api_key=api_key)
         self.initialize_context()
-
-    # def initialize_context(self):
-    #     context = get_profiles_context()
-    #     system_message = {
-    #         "role": "system",
-    #         "content": f"You are a helpful assistant who answers questions based on the following user profiles:\n\n{context}"
-    #     }
-    #     self.conversation_history.append(system_message)
 
     def initialize_context(self):
         mongo_url = os.getenv("MONGO_URI")

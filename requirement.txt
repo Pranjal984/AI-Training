@@ -2,3 +2,5 @@ python-dotenv~=1.0.1
 mistralai~=1.5.0
 groq
 pymongo
+langchain
+langchain_core
